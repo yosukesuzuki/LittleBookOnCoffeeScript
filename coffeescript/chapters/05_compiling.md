@@ -16,7 +16,7 @@ You can define tasks using CoffeeScript in a file called `Cakefile`. Cake will p
 
 Tasks are defined using the `task()` function, passing a name, optional description and callback function. For example, create a file called `Cakefile`, and two directories, `lib` and `src`. Add the following to the `Cakefile`:
 
-<span class="csscript"></span>
+
 
     fs = require 'fs'
 
@@ -37,7 +37,7 @@ Tasks are defined using the `task()` function, passing a name, optional descript
       
 In the example above, we're defining a task called `build` that can be invoked by running: `cake build`. This runs the same command as the previous example, compiling all the CoffeeScript files in `src` to JavaScript in `lib`. You can now reference JavaScript files in the `lib` directory as per usual from your HTML:
 
-<span class="csscript"></span>
+
 
     <!DOCTYPE html>
     <html>
@@ -51,7 +51,7 @@ In the example above, we're defining a task called `build` that can be invoked b
 
 We're still having to manually run `cake build` whenever our CoffeeScript code changes, which is far from ideal. Luckily, the `coffee` command takes another option, `--watch`, which instructs it to watch a directory for changes and re-compiling as necessary. Let's define another task using that:
 
-<span class="csscript"></span>
+
 
      task 'watch', 'Watch src/ for changes', ->
         coffee = spawn 'coffee', ['-w', '-c', '-o', 'lib', 'src']
@@ -62,7 +62,7 @@ We're still having to manually run `cake build` whenever our CoffeeScript code c
 
 If one task relies on another, you can run other tasks using `invoke(name)`. Let's add a utility task to our `Cakefile` which is going to both open  `index.html` and start watching the source for changes.
 
-<span class="csscript"></span>
+
 
     task 'open', 'Open index.html', ->
       # First open, then watch
@@ -71,7 +71,7 @@ If one task relies on another, you can run other tasks using `invoke(name)`. Let
 
 You can also define options for your task using the `option()` function, which takes a short name, long name and description.
 
-<span class="csscript"></span>
+
 
     option '-o', '--output [DIR]', 'output dir'
 

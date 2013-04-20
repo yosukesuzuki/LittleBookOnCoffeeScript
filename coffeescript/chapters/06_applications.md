@@ -1,5 +1,3 @@
-<div class="back"><a href="index.html">&laquo; Back to all chapters</a></div>
-
 #Creating Applications
 
 Now you've been given an overview of the syntax, lets explore actually structuring and creating CoffeeScript applications. This section aims to be useful to all CoffeeScript developers, novice or advanced. Indeed, it should be relevant to pure JavaScript developers too. 
@@ -53,7 +51,7 @@ Now let's create our application structure. If you're using [Spine](https://gith
 
 Now to actually boot up the Stitch server. Let's create a file called `index.coffee` and fill it with the following script:
 
-<span class="csscript"></span>
+
 
     require("coffee-script")
     stitch  = require("stitch")
@@ -105,7 +103,7 @@ Rightio, we're almost there. Now run:
     
 You'll hopefully have a Stitch server up and running. Let's go ahead and test it out by putting an `app.coffee` script in the `app` folder. This will be the file that'll bootstrap our application.
 
-<span class="csscript"></span>
+
 
     module.exports = App =
       init: ->
@@ -133,7 +131,7 @@ Now let's create our main page `index.html` which, if we're building a single pa
 
 When the page loads, our *DOMContentLoaded* event callback is requiring the `app.coffee` script (which is automatically compiled), and invoking our `init()` function. That's all there is to it, we've got CommonJS modules up and running, as well as a HTTP server and CoffeeScript compiler. If, say, we wanted to include a module, it's just a case of calling `require()`. Let's create a new class, `User`, and reference it from `app.coffee`:
 
-<span class="csscript"></span>
+
 
     # app/models/user.coffee
     module.exports = class User
@@ -190,13 +188,13 @@ Now we've got a handle on the syntax, let's define an Eco template in `views/use
     
 Stitch will automatically compile our template and include it in `application.js`. Then, in our application's controllers we can require the template, like it was a module, and execute it passing any data required. 
     
-<span class="csscript"></span>
+
 
     require("views/users/show")(new User("Brian"))
     
 Our `app.coffee` file should now look like this, rendering the template and appending it to the page when the document loads:
 
-<span class="csscript"></span>
+
 
     User = require("models/user")
 

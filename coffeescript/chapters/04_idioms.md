@@ -1,5 +1,3 @@
-<div class="back"><a href="index.html">&laquo; Back to all chapters</a></div>
-
 #Common CoffeeScript idioms
 
 Every language has a set of idioms and practices, and CoffeeScript is no exception. This chapter will explore those conventions, and show you some JavaScript to CoffeeScript comparisons so you can get a practical sense of the language. 
@@ -17,7 +15,7 @@ In JavaScript to iterate over every item in an array, we could either use the ne
 
 Although the `forEach()` syntax is much more succinct and readable, it suffers from the drawback that the callback function will be invoked every iteration of the array, and is therefore much slower than the equivalent `for` loop. Let's see how it looks in CoffeeScript.
 
-<span class="csscript"></span>
+
       
     myFunction(item) for item in array
     
@@ -37,7 +35,7 @@ As with `forEach()`, ES5 also includes a native map function that has a much mor
 
 As we covered in the syntax chapter, CoffeeScript's comprehensions can be used to get the same behavior as `map()`. Notice we're surrounding the comprehension with parens, which is **absolutely critical** in ensuring the comprehension returns what you'd expect, the mapped array. 
 
-<span class="csscript"></span>
+
 
     result = (item.name for item in array)
 
@@ -56,14 +54,14 @@ Again, ES5 has a utility function [`filter()`](https://developer.mozilla.org/en/
 
 CoffeeScript's basic syntax uses the `when` keyword to filter items with a comparison. Behind the scenes a `for` loop is generated. The whole execution is performed in an anonymous function to ward against scope leakage and variable conflict. 
 
-<span class="csscript"></span>
+
 
     result = (item for item in array when item.name is "test")
 
 Don't forgot to include the parens, as otherwise `result` will be the last item in the array. 
 CoffeeScript's comprehensions are so flexible that they allow you to do powerful selections as in the following example:
 
-<span class="csscript"></span>
+
 
     passed = []
     failed = []
@@ -74,7 +72,7 @@ CoffeeScript's comprehensions are so flexible that they allow you to do powerful
     
 If comprehensions get too long, you can split them onto multiple lines.
 
-<span class="csscript"></span>
+
 
     passed = []
     failed = []
@@ -89,19 +87,19 @@ Checking to see if a value is inside an array is typically done with `indexOf()`
 
 CoffeeScript has a neat alternative to this which Pythonists may recognize, namely `in`.
 
-<span class="csscript"></span>
+
     
     included = "test" in array
 
 Behind the scenes, CoffeeScript is using `Array.prototype.indexOf()`, and shimming if necessary, to detect if the value is inside the array. Unfortunately this  means the same `in` syntax won't work for strings. We need to revert back to using `indexOf()` and testing if the result is negative:
 
-<span class="csscript"></span>
+
 
     included = "a long test string".indexOf("test") isnt -1
 
 Or even better, hijack the bitwise operator so we don't have to do a `-1` comparison. 
 
-<span class="csscript"></span>
+
     
     string   = "a long test string"
     included = !!~ string.indexOf "test"
@@ -115,7 +113,7 @@ To iterate over a bunch of properties in JavaScript, you'd use the `in` operator
     
 However, as you've seen in the previous section, CoffeeScript has already reserved `in` for use with arrays. Instead, the operator has been renamed `of`, and can be used like thus:
 
-<span class="csscript"></span>
+
     
     object = {one: 1, two: 2}
     alert("#{key} = #{value}") for key, value of object
@@ -126,7 +124,7 @@ As you can see, you can specify variables for both the property name, and its va
 
 This technique is not specific to CoffeeScript, but I thought it useful to demonstrate anyway. `Math.max` and `Math.min` take multiple arguments, so you can easily use `...` to pass an array to them, retrieving the maximum and minimum values in the array. 
 
-<span class="csscript"></span>
+
 
     Math.max [14, 35, -7, 46, 98]... # 98
     Math.min [14, 35, -7, 46, 98]... # -7
@@ -137,7 +135,7 @@ It's worth noting that this trick will fail with really large arrays as browsers
 
 In the `Math.max` example above, we're  using `...` to de-structure the array and passing it as multiple arguments to `max`. Behind the scenes, CoffeeScript is converting the function call to use `apply()`, ensuring the array is passed as multiple arguments to `max`. We can use this feature in other ways too, such as proxying function calls:
 
-<span class="csscript"></span>
+
 
     Log =
       log: ->
@@ -145,7 +143,7 @@ In the `Math.max` example above, we're  using `...` to de-structure the array an
       
 Or you can alter the arguments before they're passed onwards:
 
-<span class="csscript"></span>
+
 
     Log =
       logPrefix: "(App)"
@@ -162,7 +160,7 @@ CoffeeScript style guides indicates that `or` is preferred over `||`, and `and` 
 
 This preference over more English style code also applies to using `is` over `==` and `isnt` over `!=`.
     
-<span class="csscript"></span>
+
 
     string = "migrating coconuts"
     string == string # true
@@ -170,13 +168,13 @@ This preference over more English style code also applies to using `is` over `==
     
 One extremely nice addition to CoffeeScript is the 'or equals', which is a pattern Rubyists may recognize as `||=`:
     
-<span class="csscript"></span>
+
 
     hash or= {}
     
 If hash evaluates to `false`, then it's set to an empty object. It's important to note here that this expression also recognizes `0`, `""` and `null` as false. If that isn't your intention, you'll need to use CoffeeScript's existential operator, which only gets activated if `hash` is `undefined` or `null`:
 
-<span class="csscript"></span>
+
 
     hash ?= {}
 
@@ -184,7 +182,7 @@ If hash evaluates to `false`, then it's set to an empty object. It's important t
 
 Destructuring assignments can be used with any depth of array and object nesting, to help pull out deeply nested properties.
 
-<span class="csscript"></span>
+
 
     someObject = { a: 'value for a', b: 'value for b' }
     { a, b } = someObject
@@ -192,7 +190,7 @@ Destructuring assignments can be used with any depth of array and object nesting
     
 This is especially useful in Node applications when requiring modules:
 
-<span class="csscript"></span>
+
 
     {join, resolve} = require('path')
     
@@ -202,7 +200,7 @@ This is especially useful in Node applications when requiring modules:
 
 Using external libraries is exactly the same as calling functions on CoffeeScript libraries; since at the end of the day everything is compiled down to JavaScript. Using CoffeeScript with [jQuery](http://jquery.com) is especially elegant, due to the amount of callbacks in jQuery's API. 
 
-<span class="csscript"></span>
+
 
     # Use local alias
     $ = jQuery
@@ -218,7 +216,7 @@ Since all of CoffeeScript's output is wrapped in an anonymous function, we can s
 
 The `do` keyword in CoffeeScript lets us execute functions immediately, a great way of encapsulating scope & protecting variables. In the example below, we're defining a variable `classToType` in the context of an anonymous function which's immediately called by `do`. That anonymous function returns a second anonymous function, which will be ultimate value of `type`. Since `classToType` is defined in a context that no reference is kept to, it can't be accessed outside that scope.
 
-<span class="csscript"></span>
+
 
     # Execute function immediately
     type = do ->

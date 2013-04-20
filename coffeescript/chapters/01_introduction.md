@@ -1,5 +1,3 @@
-<div class="back"><a href="index.html">&laquo; Back to all chapters</a></div>
-
 #What is CoffeeScript?
 
 [CoffeeScript](http://coffeescript.org) is a little language that compiles down to JavaScript. The syntax is inspired by Ruby and Python, and implements many features from those two languages. This book is designed to help you learn CoffeeScript, understand best practices and start building awesome client side applications. The book is little, only five chapters, but that's rather apt as CoffeeScript is a little language too. 

@@ -1,5 +1,3 @@
-<div class="back"><a href="index.html">&laquo; Back to all chapters</a></div>
-
 #The Bad Parts
 
 JavaScript is a tricky beast, and knowing the parts that you should avoid is just as important as knowing about the parts you should use. As Sun Tzu says, "know your enemy", and that's exactly what we're going to do in the chapter, exploring the dark side of JavaScript and revealing all the lurking monsters ready to pounce on the unsuspecting developer. 
@@ -42,7 +40,7 @@ Luckily CoffeeScript comes to your rescue here by eliminating implicit global va
 
 Let's have a look at an example of CoffeeScript's variable assignment:
 
-<span class="csscript"></span>
+
 
     outerScope = true
     do ->
@@ -59,7 +57,7 @@ Compiles down to:
     
 Notice how CoffeeScript initializes variables (using `var`) automatically in the context their first used. Whilst it's impossible to shadow outer variables, you can still refer to and access them. You need to watch out for this, be careful that you're not reusing the name of an external variable accidentally if you're writing a deeply nested function or class. For example, here we're accidentally overwriting the `package` variable in a Class function:
 
-<span class="csscript"></span>
+
 
     package = require('./package')
     
@@ -73,7 +71,7 @@ Notice how CoffeeScript initializes variables (using `var`) automatically in the
         
 Global variables are needed from time to time, and to create those you need to set them as properties on `window`:
 
-<span class="csscript"></span>
+
 
       class window.Asset
         constructor: ->
@@ -101,7 +99,7 @@ Certain keywords in JavaScript are reserved for future versions of JavaScript, s
 
 For example, let's say you were to use the reserved keyword `class` as a property on an object, your CoffeeScript might look like this:
 
-<span class="csscript"></span>
+
 
     myObj = {
       delete: "I am a keyword!"
@@ -121,7 +119,7 @@ The CoffeeScript parser notices you're using a reserved keyword, and quotes it f
 
 The weak equality comparison in JavaScript has some confusing behavior and is often the source of confusing bugs. The example below is taken from [JavaScript Garden's equality section](http://bonsaiden.github.com/JavaScript-Garden/#types.equality) which delves into the issue in some depth. 
 
-<span class="csscript"></span>
+
 
     ""           ==   "0"           // false
     0            ==   ""            // true
@@ -141,7 +139,7 @@ CoffeeScript solves this by simply replacing all weak comparisons with strict on
 
 This doesn't mean you can ignore type coercion in CoffeeScript completely though, especially when it comes to checking the 'truthfulness' of variables during flow control. Blank strings, `null`, `undefined` and the number `0` are all coerced to `false`
 
-<span class="csscript"></span>
+
 
     alert("Empty Array")  unless [].length
     alert("Empty String") unless ""
@@ -149,7 +147,7 @@ This doesn't mean you can ignore type coercion in CoffeeScript completely though
     
 If you want to explicitly check for `null` and `undefined`, then you can use CoffeeScript's existential operator:
 
-<span class="csscript"></span>
+
 
     alert("This is not called") unless ""?
     
@@ -209,7 +207,7 @@ Whilst CoffeeScript removes some of JavaScript's foibles, other features are a n
 
 However, like `with`, `eval()` throws the compiler off track, and is a major performance hog. As the compiler has no idea what's inside until runtime, it can't perform any optimizations like inlining. Another concern is with security. If you give it dirty input, `eval` can easily open up your code for injection attacks. 99% of the time when you're using `eval`, there are better & safer alternatives (such as square brackets).
 
-<span class="csscript"></span>
+
 
     # Don't do this
     model = eval(modelName)
@@ -221,7 +219,7 @@ However, like `with`, `eval()` throws the compiler off track, and is a major per
 
 The `typeof` operator is probably the biggest design flaw of JavaScript, simply because it's basically completely broken. In fact, it really has only one use, checking to see if a value is `undefined`.
 
-<span class="csscript"></span>
+
 
     typeof undefinedVar is "undefined"
 
@@ -251,7 +249,7 @@ As you can see, depending on if you define a string with quotes or with the `Str
 
 So what can we use for type checking in JavaScript? Well, luckily `Object.prototype.toString()` comes to the rescue here. If we invoke that function in the context of a particular object, it'll return the correct type. All we need to do is massage the string it returns, so we end up with the sort of string `typeof` should be returning. Here's an example implementation ported from jQuery's `$.type`:
 
-<span class="csscript"></span>
+
 
     type = do ->
       classToType = {}
@@ -274,7 +272,7 @@ So what can we use for type checking in JavaScript? Well, luckily `Object.protot
     
 If you're checking to see if an variable has been defined, you'll still need to use `typeof` otherwise you'll get a `ReferenceError`.
 
-<span class="csscript"></span>
+
 
     if typeof aVar isnt "undefined"
       objectType = type(aVar)
@@ -285,7 +283,7 @@ Or more succinctly with the existential operator:
     
 As an alternative to type checking, you can often use duck typing and the CoffeeScript existential operator together to eliminating the need to resolve an object's type. For example, let's say we're pushing a value onto an array. We could say that, as long as the 'array like' object implements `push()`, we should treat it like an array:
 
-<span class="csscript"></span>
+
 
     anArray?.push? aValue
     
@@ -295,14 +293,14 @@ If `anArray` is an object other than an array than the existential operator will
 
 JavaScript's `instanceof` keyword is nearly as broken as `typeof`. Ideally `instanceof` would compare the constructor of two object, returning a boolean if one was an instance of the other. However, in reality `instanceof` only works when comparing custom made objects. When it comes to comparing built-in types, it's as useless as `typeof`. 
 
-<span class="csscript"></span>
+
 
     new String("foo") instanceof String # true
     "foo" instanceof String             # false
     
 Additionally, `instanceof` also doesn't work when comparing object from different frames in the browser. In fact, `instanceof` only returns a correct result for custom made objects, such as CoffeeScript classes.
 
-<span class="csscript"></span>
+
 
     class Parent
     class Child extends Parent
@@ -317,7 +315,7 @@ Make sure you only use it for your own objects or, even better, stick clear of i
 
 The `delete` keyword can only safely be used for removing properties inside objects. 
 
-<span class="csscript"></span>
+
 
     anObject = {one: 1, two: 2}
     delete anObject.one
@@ -325,7 +323,7 @@ The `delete` keyword can only safely be used for removing properties inside obje
 
 Any other use, such as deleting variables or function's won't work.
 
-<span class="csscript"></span>
+
 
     aVar = 1
     delete aVar
@@ -333,7 +331,7 @@ Any other use, such as deleting variables or function's won't work.
 
 It's rather peculiar behavior, but there you have it. If you want to remove a reference to a variable, just assign it to `null` instead.
 
-<span class="csscript"></span>
+
 
     aVar = 1
     aVar = null
@@ -390,7 +388,7 @@ CoffeeScript already abides by a lot of strict mode's requirements, such as alwa
 
 All you need to do to enable strict checking is start your script or function with the following string:
 
-<span class="csscript"></span>
+
     
     ->
       "use strict"
@@ -399,7 +397,7 @@ All you need to do to enable strict checking is start your script or function wi
       
 That's it, just the `'use strict'` string. Couldn't be simpler and it's completely backwards compatible. Let's take a look at strict mode in action. The following function will raise a syntax error in strict mode, but run fine in the usual mode:
 
-<span class="csscript"></span>
+
 
     do ->
       "use strict"
@@ -409,7 +407,7 @@ Strict mode has removed access to `arguments.caller` & `arguments.callee` as the
 
 There's a particular gotcha you should look out for when using strict mode, namely creating global variables with `this`. The following example will throw a `TypeError` in strict mode, but run fine in a normal context, creating a global variable:
 
-<span class="csscript"></span>
+
 
     do ->
       "use strict"
@@ -417,7 +415,7 @@ There's a particular gotcha you should look out for when using strict mode, name
       
 The reason behind this disparity is that in strict mode `this` is `undefined`, whereas normally it refers to the `window` object. The solution to this is to explicitly set global variables on the `window` object.
 
-<span class="csscript"></span>
+
 
     do ->
       "use strict"
